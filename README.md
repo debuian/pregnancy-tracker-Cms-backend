@@ -25,6 +25,18 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Project setup Step
+
+```bash
+Step 1 :clone the repo.
+Step 2: run pnpm install.
+Step 3 :copy the sample of the env from the ReadMe. Key are important don't chnage but value are meant to be change depending upon the configuration.
+Step 4 : Configure your Postgress DB
+Step 5 : run migration commad.
+Step 6: run pnpm run start:dev (running project in watch mode)
+
+```
+
 ## Project setup
 
 ```bash
