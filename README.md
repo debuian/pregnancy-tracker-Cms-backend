@@ -41,6 +41,17 @@ $ npm run migration:generate --name=<MigartionName>
 $ npm run migration:run
 ```
 
+## .env Sample
+
+```bash
+PG_HOST=localhost
+PG_PORT=5432
+PG_DATABASE=PregnancyTracker
+PG_USER=postgres
+PG_PASSWORD=password
+APP_PORT=8000
+```
+
 ## Compile and run the project
 
 ```bash
