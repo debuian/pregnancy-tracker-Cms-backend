@@ -31,6 +31,16 @@
 $ pnpm install
 ```
 
+## Migrations CLI commands
+
+```bash
+# Generate Migrations inside database/migrations at root level
+$ npm run migration:generate --name=<MigartionName>
+
+# Running Migrations
+$ npm run migration:run
+```
+
 ## Compile and run the project
 
 ```bash
