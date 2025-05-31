@@ -136,7 +136,7 @@ export class MotherDevelopmentService {
         }
       }
       if (existingMap.size > 0) {
-        await this.motherSymptomsRepo.remove([...existingMap.values()]);
+        await this.motherSymptomsRepo.delete([...existingMap.values()]);
       }
     }
     const updatedMotherDevelopment = this.motherDevelopmentRepo.merge(
@@ -148,7 +148,6 @@ export class MotherDevelopmentService {
   }
 
   async remove(id: number) {
-    const motherDevelopment = await this.findOne(id);
-    await this.motherDevelopmentRepo.remove(motherDevelopment);
+    await this.motherDevelopmentRepo.delete({ id });
   }
 }

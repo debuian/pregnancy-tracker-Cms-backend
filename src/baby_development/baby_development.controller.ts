@@ -9,14 +9,9 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFiles,
-  Inject,
-  Logger,
 } from '@nestjs/common';
 import { BabyDevelopmentService } from './baby_development.service';
-import {
-  CreateBabyDevelopmentDto,
-  CreateBabyDevelopmentFormData,
-} from './dto/create-baby_development.dto';
+import { CreateBabyDevelopmentDto } from './dto/create-baby_development.dto';
 import { UpdateBabyDevelopmentDto } from './dto/update-baby_development.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import MulterOptions from 'src/global/config/multer/multer.config';
@@ -36,6 +31,7 @@ import {
   BabyDevelopmentListResponse,
   BabyDevelopmentUpdateResponse,
 } from './dto/swagger-response';
+import { FileValidationPipe } from 'src/global/FileValidationPipe';
 
 @Controller('baby-development')
 export class BabyDevelopmentController {
@@ -50,13 +46,12 @@ export class BabyDevelopmentController {
     type: BabyDevelopmentCreatedResponse,
     description: 'Baby development record created successfully',
   })
-  @UseInterceptors(FilesInterceptor('files', 10, MulterOptions)) // max 10 files
+  @UseInterceptors(FilesInterceptor('files', 10, MulterOptions))
   create(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() formData: CreateBabyDevelopmentFormData,
+    @UploadedFiles(new FileValidationPipe()) files: Express.Multer.File[],
+    @Body() data: CreateBabyDevelopmentDto,
   ) {
-    const createDto: CreateBabyDevelopmentDto = JSON.parse(formData.data);
-    return this.babyDevelopmentService.create(createDto, files);
+    return this.babyDevelopmentService.create(data, files);
   }
 
   @Get()
@@ -109,7 +104,7 @@ export class BabyDevelopmentController {
   })
   @ApiBody({
     description: 'Update baby development data',
-    type: CreateBabyDevelopmentFormData,
+    type: CreateBabyDevelopmentDto,
   })
   @ApiOkResponse({
     type: BabyDevelopmentUpdateResponse,

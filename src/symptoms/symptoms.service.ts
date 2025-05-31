@@ -39,7 +39,6 @@ export class SymptomsService {
   }
 
   async remove(id: number) {
-    const symptom = await this.findOne(id);
-    return this.symptomRepo.remove(symptom);
+    return this.symptomRepo.delete({ id });
   }
 }

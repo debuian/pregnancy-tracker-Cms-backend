@@ -1,48 +1,57 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { BadRequestException } from '@nestjs/common';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 class OrganDevelopmentInput {
+  @Type(() => Number)
+  @IsNumber({}, { message: 'organId must be the number or number string' })
   organId: number;
-  development_stage: string; // fixed typo
+  @IsNotEmpty()
+  @IsString()
+  development_stage: string;
 }
 
 export class CreateBabyDevelopmentDto {
+  @Transform(({ value }) => {
+    if (value === '' || value === undefined || value === null) {
+      throw new BadRequestException('weekId should not be empty');
+    }
+    const r = parseInt(value);
+    if (isNaN(r)) {
+      throw new BadRequestException('weekId must be a number');
+    }
+    return r;
+  })
+  @IsNotEmpty()
+  @IsNumber()
   weekId: number;
-  weight_kg: number;
-  lenght_cm: number;
+
+  @IsString()
+  @IsNotEmpty()
+  weight_kg: string;
+
+  @IsString()
+  @IsNotEmpty()
+  length_cm: string;
+
+  @IsString()
+  @IsNotEmpty()
   milestones: string;
+
+  @IsString()
+  @IsNotEmpty()
   sensory_development: string;
-  // Organ development details muultiple
+
+  @IsOptional()
+  @IsArray()
+  @Type(() => OrganDevelopmentInput)
+  @ValidateNested({ each: true })
   organ_developments?: OrganDevelopmentInput[];
-}
-
-export class CreateBabyDevelopmentFormData {
-  @ApiProperty({
-    type: 'array',
-    items: {
-      type: 'string',
-      format: 'binary',
-    },
-    description: 'Development photos/documents',
-    required: false,
-  })
-  files?: Express.Multer.File[];
-
-  @ApiProperty({
-    type: CreateBabyDevelopmentDto,
-    description: 'Baby development data as JSON string',
-    example: JSON.stringify({
-      weekId: 1,
-      weight_kg: 0.25,
-      lenght_cm: 4.5,
-      milestones: 'Heartbeat is strong and detectable.',
-      sensory_development: 'Eyes and ears are forming.',
-      organ_developments: [
-        {
-          organId: 1,
-          development_stage: 'Forming chambers',
-        },
-      ],
-    }),
-  })
-  data: string; // This will contain the stringified CreateBabyDevelopmentDto
 }

@@ -79,7 +79,6 @@ export class TrimesterNutrientsService {
   }
 
   async remove(id: number) {
-    const tn = await this.findOne(id);
-    return this.trimesterNutrientRepository.remove(tn);
+    return await this.trimesterNutrientRepository.delete({ id });
   }
 }

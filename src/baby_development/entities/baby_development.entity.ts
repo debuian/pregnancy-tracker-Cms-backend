@@ -10,16 +10,16 @@ export class BabyDevelopmentEntity extends BaseEntity {
     description: 'The week of pregnancy this development record corresponds to',
     example: 12,
   })
-  @Column('decimal', { precision: 6, scale: 2 })
-  weight_kg: number; // safer and recommended to use string data type
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
+  weight_kg: string; // safer and recommended to use string data type
 
   @ApiProperty({
     type: Number,
     description: 'The length of the baby in centimeters',
     example: 15.5,
   })
-  @Column('decimal', { precision: 6, scale: 2 })
-  lenght_cm: number;
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
+  length_cm: string;
 
   @ApiProperty({
     type: String,

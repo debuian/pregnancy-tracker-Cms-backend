@@ -31,6 +31,7 @@ import {
   MotherDeveFindOneResponse,
   MotherDevUpdateResponse,
 } from './dto/swagger-response';
+import { FileValidationPipe } from 'src/global/FileValidationPipe';
 
 @Controller('mother-development')
 export class MotherDevelopmentController {
@@ -51,16 +52,12 @@ export class MotherDevelopmentController {
   })
   @UseInterceptors(FilesInterceptor('files', 10, MulterOptions))
   create(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() formData: { data: string },
+    @UploadedFiles(new FileValidationPipe()) files: Express.Multer.File[],
+    @Body() data: CreateMotherDevelopmentDto,
   ) {
-    const createMotherDevelopmentDto: CreateMotherDevelopmentDto = JSON.parse(
-      formData.data,
-    );
-    return this.motherDevelopmentService.create(
-      createMotherDevelopmentDto,
-      files,
-    );
+    console.log('fiels', files);
+
+    return this.motherDevelopmentService.create(data, files);
   }
 
   @Get()

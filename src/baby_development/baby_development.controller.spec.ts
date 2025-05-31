@@ -11,7 +11,9 @@ describe('BabyDevelopmentController', () => {
       providers: [BabyDevelopmentService],
     }).compile();
 
-    controller = module.get<BabyDevelopmentController>(BabyDevelopmentController);
+    controller = module.get<BabyDevelopmentController>(
+      BabyDevelopmentController,
+    );
   });
 
   it('should be defined', () => {

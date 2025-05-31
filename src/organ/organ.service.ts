@@ -37,7 +37,6 @@ export class OrganService {
   }
 
   async remove(id: number) {
-    const organ = await this.findOne(id);
-    return this.OrganRepo.delete(id); // ✔️ correct
+    return this.OrganRepo.delete({ id });
   }
 }

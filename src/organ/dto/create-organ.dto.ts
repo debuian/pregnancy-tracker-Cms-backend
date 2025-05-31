@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateOrganDto {
   @ApiProperty({
@@ -6,6 +7,8 @@ export class CreateOrganDto {
     description: 'Name of the organ',
     type: String,
   })
+  @IsString()
+  @IsNotEmpty()
   name: string;
   @ApiProperty({
     example:
@@ -13,5 +16,7 @@ export class CreateOrganDto {
     description: 'Description of the organ',
     type: String,
   })
+  @IsString()
+  @IsNotEmpty()
   description: string;
 }

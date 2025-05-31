@@ -35,8 +35,6 @@ export class TrimestersService {
   }
 
   async remove(id: number) {
-    const trimester = await this.findOne(id);
-    const result = await this.trimesterRepository.delete(trimester);
-    return result;
+    return await this.trimesterRepository.delete({ id });
   }
 }

@@ -38,7 +38,8 @@ export class BabyDevelopmentService {
 
     const newBabyDevelopment =
       await this.babyDevelopmentRepository.save(babyDevelopment);
-    if (organ_developments?.length) {
+
+    if (organ_developments && organ_developments?.length > 0) {
       const organDevPromises = organ_developments.map(async (od) => {
         const organ = await this.organService.findOne(od.organId);
 
@@ -56,8 +57,6 @@ export class BabyDevelopmentService {
 
     if (media?.length) {
       const mediaPromises = media.map(async (file) => {
-        console.log(file);
-
         const babyMedia = this.babyMediaRepository.create({
           babyDevelopment: newBabyDevelopment,
           mediaUrl: file.path,
@@ -221,7 +220,9 @@ export class BabyDevelopmentService {
       );
 
       if (toDelete.length > 0) {
-        await this.organDevelopmentRepository.remove(toDelete);
+        for (const td of toDelete) {
+          await this.organDevelopmentRepository.delete({ id: td.id });
+        }
       }
     }
 
@@ -233,7 +234,6 @@ export class BabyDevelopmentService {
   }
 
   async remove(id: number) {
-    const babyDevelopment = await this.findOne(id);
-    return this.babyDevelopmentRepository.delete(babyDevelopment.id);
+    return this.babyDevelopmentRepository.delete({ id });
   }
 }

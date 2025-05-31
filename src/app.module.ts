@@ -11,11 +11,12 @@ import { WeeksModule } from './weeks/weeks.module';
 import { BabyDevelopmentModule } from './baby_development/baby_development.module';
 import { OrganModule } from './organ/organ.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { dirname, join } from 'path';
+import { join } from 'path';
 import { NutrientsModule } from './nutrients/nutrients.module';
 import { TrimesterNutrientsModule } from './trimester_nutrients/trimester_nutrients.module';
 import { MotherDevelopmentModule } from './mother_development/mother_development.module';
 import { SymptomsModule } from './symptoms/symptoms.module';
+import { ApplicationExceptionFilters } from './global/ExceptionFilters';
 
 @Module({
   imports: [
@@ -59,12 +60,11 @@ import { SymptomsModule } from './symptoms/symptoms.module';
       provide: 'APP_INTERCEPTOR',
       useClass: AppInterceptors,
     },
+    {
+      provide: 'APP_FILTER',
+      useClass: ApplicationExceptionFilters,
+    },
     AppService,
   ],
 })
-export class AppModule {
-  constructor() {
-    console.log(join(__dirname, '..', '..', 'uploads'));
-    console.log(process.cwd());
-  }
-}
+export class AppModule {}

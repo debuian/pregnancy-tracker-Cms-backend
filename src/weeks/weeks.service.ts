@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateWeekDto } from './dto/create-week.dto';
 import { UpdateWeekDto } from './dto/update-week.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -33,6 +37,7 @@ export class WeeksService {
     const week = await this.weekRepository.findOne({
       where: { id },
     });
+
     if (!week) {
       throw new NotFoundException(`Week with id ${id} not found`);
     }
@@ -51,7 +56,6 @@ export class WeeksService {
   }
 
   async remove(id: number) {
-    const week = await this.findOne(id);
-    return this.weekRepository.delete(id);
+    return this.weekRepository.delete({ id });
   }
 }

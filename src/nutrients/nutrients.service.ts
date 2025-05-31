@@ -38,7 +38,6 @@ export class NutrientsService {
   }
 
   async remove(id: number) {
-    const nutrient = await this.findOne(id);
-    return this.nutrientRepository.remove(nutrient);
+    return this.nutrientRepository.delete({ id });
   }
 }
