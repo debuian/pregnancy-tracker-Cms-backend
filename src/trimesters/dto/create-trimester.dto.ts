@@ -5,6 +5,7 @@ export class CreateTrimesterDto {
   @ApiProperty({
     example: 'First Trimester',
     description: 'The name of the trimester',
+    required: true,
   })
   @IsString()
   @IsNotEmpty()
@@ -13,6 +14,7 @@ export class CreateTrimesterDto {
   @ApiProperty({
     example: '1',
     description: 'Abbreviation for the trimester',
+    required: true,
   })
   @IsString()
   @IsNotEmpty()
@@ -21,6 +23,7 @@ export class CreateTrimesterDto {
   @ApiProperty({
     example: 'The first trimester of pregnancy lasts from week 1 to week 12.',
     description: 'A brief description of the trimester',
+    required: true,
   })
   @IsString()
   @IsNotEmpty()

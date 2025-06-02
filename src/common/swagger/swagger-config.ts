@@ -1,8 +1,9 @@
 // src/common/swagger/swagger-config.ts
 import { TrimesterEntity } from '../../trimesters/entities/trimester.entity';
 import { TrimesterExamples } from '../../trimesters/dto/trimester.examples';
+import { create } from 'domain';
 
-export const SwaggerConfig = {
+export const SwaggerExampleConfig = {
   trimester: {
     CREATE: {
       description: 'The trimester has been successfully created.',
@@ -28,6 +29,20 @@ export const SwaggerConfig = {
       description: 'The trimester has been successfully deleted.',
       type: 'TrimesterResponse',
       example: TrimesterExamples.DEFAULT,
+    },
+  },
+  week: {
+    create: {
+      weekNumber: 1,
+      title: 'Week 1',
+      summary: 'This is a summary of week 1.',
+      trimesterId: 1,
+    },
+    update: {
+      weekNumber: 2,
+      title: 'Week 2 - Updated',
+      summary: 'This is an updated summary for week 2.',
+      trimesterId: 1,
     },
   },
 };

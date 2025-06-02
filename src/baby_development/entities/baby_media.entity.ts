@@ -5,12 +5,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'baby_media' })
 export class BabyMediaEntity extends BaseEntity {
-  @ManyToOne(() => BabyDevelopmentEntity, {
-    nullable: false,
-    onDelete: 'CASCADE',
-  })
-  babyDevelopment: BabyDevelopmentEntity;
-
   @ApiProperty({
     type: String,
     description: 'URL of the media file',
@@ -34,4 +28,10 @@ export class BabyMediaEntity extends BaseEntity {
   })
   @Column({ type: 'enum', enum: ['image', 'video', 'audio'], default: 'image' })
   mediaType: string;
+
+  @ManyToOne(() => BabyDevelopmentEntity, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  babyDevelopment: BabyDevelopmentEntity;
 }

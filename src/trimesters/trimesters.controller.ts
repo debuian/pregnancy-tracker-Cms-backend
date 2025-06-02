@@ -13,10 +13,12 @@ import { UpdateTrimesterDto } from './dto/update-trimester.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { TrimesterExamples } from './dto/trimester.examples';
 import {
-  TrimesterArrayResponse,
+  TrimesterListResponse,
   TrimesterDeleteResponse,
-  TrimesterResponse,
-} from './dto/trimester-response.dto';
+  TrimesterCreateResponse,
+  TrimesterSingleResponse,
+  TrimesterUpdateResposne,
+} from './dto/swagger-response';
 
 @Controller('trimesters')
 export class TrimestersController {
@@ -25,7 +27,7 @@ export class TrimestersController {
   @Post()
   @ApiOkResponse({
     description: 'The trimester has been successfully created.',
-    type: TrimesterResponse,
+    type: TrimesterCreateResponse,
     example: TrimesterExamples.CREATED,
   })
   create(@Body() createTrimesterDto: CreateTrimesterDto) {
@@ -35,8 +37,7 @@ export class TrimestersController {
   @Get()
   @ApiOkResponse({
     description: 'Returns a list of all trimesters.',
-    type: TrimesterArrayResponse,
-    example: TrimesterExamples.ARRAY,
+    type: TrimesterListResponse,
   })
   findAll() {
     return this.trimestersService.findAll();
@@ -45,8 +46,7 @@ export class TrimestersController {
   @Get(':id')
   @ApiOkResponse({
     description: 'Returns a single trimester by ID.',
-    type: TrimesterResponse,
-    example: TrimesterExamples.DEFAULT,
+    type: TrimesterSingleResponse,
   })
   findOne(@Param('id') id: string) {
     return this.trimestersService.findOne(+id);
@@ -55,8 +55,7 @@ export class TrimestersController {
   @Patch(':id')
   @ApiOkResponse({
     description: 'The trimester has been successfully updated.',
-    type: TrimesterResponse,
-    example: TrimesterExamples.UPDATED,
+    type: TrimesterUpdateResposne,
   })
   update(
     @Param('id') id: string,

@@ -5,50 +5,71 @@ import {
   DeleteResultResponse,
 } from 'src/common/swagger/base-response';
 
-export class OrganCreatedResponse extends BaseResponse<OrganEntity> {
+const organExample = {
+  create: {
+    name: 'heart',
+    description:
+      'The heart is a muscular organ that pumps blood through the circulatory system.',
+  },
+  update: {
+    name: 'Updated Organ Name',
+    description: 'Updated description of the organ.',
+  },
+};
+export class OrganData extends OrganEntity {
+  @ApiProperty({
+    example: organExample.create.name,
+    description: 'Name of the organ',
+  })
+  declare name: string;
+
+  @ApiProperty({
+    example: organExample.create.description,
+    description: 'Description of the organ',
+  })
+  declare description: string;
+}
+export class OrganUpdatedData extends OrganEntity {
+  @ApiProperty({
+    example: organExample.update.name,
+  })
+  declare name: string;
+
+  @ApiProperty({
+    example: organExample.update.description,
+  })
+  declare description: string;
+}
+
+export class OrganCreatedResponse extends BaseResponse<OrganData> {
   // The `type` helps Swagger generate the correct schema using OrganEntity.
   // Since OrganEntity has @ApiProperty decorators, its properties are automatically referenced in the documentation.
   // Example values are taken from OrganEntity unless overridden here.
-  @ApiProperty({ type: OrganEntity, description: 'Created organ data' })
-  declare data: OrganEntity;
+  @ApiProperty({ type: OrganData, description: 'Created organ data' })
+  declare data: OrganData;
 }
 
-export class OrganUpdatedResponse {
-  @ApiProperty({ example: 'success', description: 'Response status' })
-  status: string;
-
+export class OrganUpdatedResponse extends BaseResponse<OrganUpdatedData> {
   @ApiProperty({
-    type: OrganEntity,
+    type: OrganUpdatedData,
     description: 'Updated organ data',
-    example: {
-      id: 1,
-      name: 'Updated Organ Name',
-      description: 'Updated description of the organ.',
-    },
   })
-  data: OrganEntity;
+  declare data: OrganUpdatedData;
 }
 
-export class OrganDeleteResponse extends DeleteResultResponse {}
-
-export class OrganArrayResponse {
-  @ApiProperty({ example: 'success', description: 'Response status' })
-  status: string;
-
+export class OrganArrayResponse extends BaseResponse<OrganData[]> {
   @ApiProperty({
-    type: [OrganEntity],
+    type: [OrganData],
     description: 'Array of organ data',
   })
-  data: OrganEntity[];
+  declare data: OrganData[];
 }
 
-export class OragnSingleResponse {
-  @ApiProperty({ example: 'success', description: 'Response status' })
-  status: string;
-
+export class OragnSingleResponse extends BaseResponse<OrganData> {
   @ApiProperty({
-    type: OrganEntity,
+    type: OrganData,
     description: 'Single organ data',
   })
-  data: OrganEntity;
+  declare data: OrganData;
 }
+export class OrganDeleteResponse extends DeleteResultResponse {}

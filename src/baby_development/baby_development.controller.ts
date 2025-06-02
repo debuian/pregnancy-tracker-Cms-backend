@@ -11,7 +11,10 @@ import {
   UploadedFiles,
 } from '@nestjs/common';
 import { BabyDevelopmentService } from './baby_development.service';
-import { CreateBabyDevelopmentDto } from './dto/create-baby_development.dto';
+import {
+  CreateBabyDevelopmentDto,
+  // CreateBabyDevelopmentSwaggerDto,
+} from './dto/create-baby_development.dto';
 import { UpdateBabyDevelopmentDto } from './dto/update-baby_development.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import MulterOptions from 'src/global/config/multer/multer.config';
@@ -41,6 +44,7 @@ export class BabyDevelopmentController {
 
   @Post()
   @ApiOperation({ summary: 'Create baby development record with files' })
+  // @ApiBody({type:CreateBabyDevelopmentSwaggerDto})
   @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({
     type: BabyDevelopmentCreatedResponse,
@@ -110,10 +114,20 @@ export class BabyDevelopmentController {
     type: BabyDevelopmentUpdateResponse,
     description: 'Update baby development record by ID',
   })
+  @UseInterceptors(FilesInterceptor('files', 10, MulterOptions))
   update(
     @Param('id') id: string,
+    @UploadedFiles() files: Express.Multer.File[],
+
     @Body() updateBabyDevelopmentDto: UpdateBabyDevelopmentDto,
   ) {
+    if (files) {
+      return this.babyDevelopmentService.update(
+        +id,
+        updateBabyDevelopmentDto,
+        files,
+      );
+    }
     return this.babyDevelopmentService.update(+id, updateBabyDevelopmentDto);
   }
 

@@ -12,10 +12,12 @@ import { CreateWeekDto } from './dto/create-week.dto';
 import { UpdateWeekDto } from './dto/update-week.dto';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import {
-  WeekArraayResponse,
+  WeekListResponse,
+  WeekCreatedResponse,
   WeekDeleteResponse,
-  WeekResponse,
-} from './dto/week-response.dto';
+  WeekSingleResponse,
+  WeekUpdateResponse,
+} from './dto/swagger-response.dto';
 
 @Controller('weeks')
 export class WeeksController {
@@ -24,7 +26,7 @@ export class WeeksController {
   @Post()
   @ApiCreatedResponse({
     description: 'The week has been successfully created.',
-    type: WeekResponse,
+    type: WeekCreatedResponse,
   })
   create(@Body() createWeekDto: CreateWeekDto) {
     return this.weeksService.create(createWeekDto);
@@ -33,7 +35,7 @@ export class WeeksController {
   @Get()
   @ApiOkResponse({
     description: 'Returns an array of weeks.',
-    type: WeekArraayResponse,
+    type: WeekListResponse,
   })
   findAll() {
     return this.weeksService.findAll();
@@ -42,7 +44,7 @@ export class WeeksController {
   @Get(':id')
   @ApiOkResponse({
     description: 'Returns a single week by ID.',
-    type: WeekResponse,
+    type: WeekSingleResponse,
   })
   findOne(@Param('id') id: string) {
     return this.weeksService.findOne(+id);
@@ -51,7 +53,7 @@ export class WeeksController {
   @Patch(':id')
   @ApiOkResponse({
     description: 'The week has been successfully updated.',
-    type: WeekResponse,
+    type: WeekUpdateResponse,
   })
   update(@Param('id') id: string, @Body() updateWeekDto: UpdateWeekDto) {
     return this.weeksService.update(+id, updateWeekDto);

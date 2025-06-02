@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { SymptomExamples } from './swagger-response';
 
 export class CreateSymptomDto {
   @ApiProperty({
     description: 'Name of the symptom',
-    example: 'Nausea',
-    type: String,
-    required: true,
+    example: SymptomExamples.CREATE.name,
   })
   @IsNotEmpty()
   @IsString()
@@ -14,9 +13,7 @@ export class CreateSymptomDto {
 
   @ApiProperty({
     description: 'Description for the symptom',
-    example: 'Feeling of sickness with an inclination to vomit.',
-    type: String,
-    required: true,
+    example: SymptomExamples.CREATE.description,
   })
   @IsNotEmpty()
   @IsString()

@@ -1,35 +1,34 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateNutrientDto } from './create-nutrient.dto';
-import { ApiProduces, ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { NutrientExamples } from './swagger-response';
 
 export class UpdateNutrientDto extends PartialType(CreateNutrientDto) {
   @ApiProperty({
-    example: 'Updated Nutrient Name',
+    example: NutrientExamples.UPDATE.name,
     description: 'Name of the nutrient',
-    type: String,
     required: false,
   })
-  name?: string | undefined;
-  @ApiProperty({
-    example: 'Updated description of the nutrient.',
-    description: 'Description of the nutrient',
-    type: String,
-    required: false,
-  })
-  description?: string | undefined;
-  @ApiProperty({
-    example: 'Updated food source of the nutrient.',
-    description: 'Food source of the nutrient',
-    type: String,
-    required: false,
-  })
-  food_source?: string | undefined;
+  name?: string;
 
   @ApiProperty({
-    example: 'Updated category of the nutrient.',
-    description: 'Category of the nutrient',
-    type: String,
+    example: NutrientExamples.UPDATE.description,
+    description: 'Description of the nutrient',
     required: false,
   })
-  category?: string | undefined;
+  description?: string;
+
+  @ApiProperty({
+    example: NutrientExamples.UPDATE.food_source,
+    description: 'Food source of the nutrient',
+    required: false,
+  })
+  food_source?: string;
+
+  @ApiProperty({
+    example: NutrientExamples.UPDATE.category,
+    description: 'Category of the nutrient',
+    required: false,
+  })
+  category?: string;
 }

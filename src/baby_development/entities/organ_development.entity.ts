@@ -6,13 +6,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'organ_development' })
 export class OrganDevelopmentEntity extends BaseEntity {
-  @ManyToOne(() => BabyDevelopmentEntity, {
-    nullable: false,
-    eager: true,
-    onDelete: 'CASCADE',
-  })
-  baby_development: BabyDevelopmentEntity;
-
   @ApiProperty({
     type: String,
     description: 'Development stage of the organ',
@@ -20,6 +13,13 @@ export class OrganDevelopmentEntity extends BaseEntity {
   })
   @Column()
   development_stage: string;
+
+  @ManyToOne(() => BabyDevelopmentEntity, {
+    nullable: false,
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  baby_development: BabyDevelopmentEntity;
 
   @ApiProperty({
     type: OrganEntity,

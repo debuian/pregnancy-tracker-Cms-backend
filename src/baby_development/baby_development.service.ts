@@ -88,8 +88,9 @@ export class BabyDevelopmentService {
       return {
         ...babyDevelopment,
         organ_development: matchingOrgans.map((od) => ({
-          organ: od.organ,
+          id: od.id,
           development_stage: od.development_stage,
+          organ: od.organ,
         })),
       };
     });
@@ -121,8 +122,9 @@ export class BabyDevelopmentService {
       return {
         ...babyDevelopment,
         organ_development: organDevelopments.map((od) => ({
-          organ: od.organ,
+          id: od.id,
           development_stage: od.development_stage,
+          organ: od.organ,
         })),
         media: [],
       };
@@ -131,8 +133,9 @@ export class BabyDevelopmentService {
     return {
       ...babyDevelopment,
       organ_development: organDevelopments.map((od) => ({
-        organ: od.organ,
+        id: od.id,
         development_stage: od.development_stage,
+        organ: od.organ,
       })),
       media: babyMedia.map((media) => ({
         id: media.id,
@@ -166,13 +169,18 @@ export class BabyDevelopmentService {
     return {
       ...babyDevelopment,
       organ_development: organDevelopments.map((od) => ({
-        organ: od.organ,
+        id: od.id,
         development_stage: od.development_stage,
+        organ: od.organ,
       })),
     };
   }
 
-  async update(id: number, updateBabyDevelopmentDto: UpdateBabyDevelopmentDto) {
+  async update(
+    id: number,
+    updateBabyDevelopmentDto: UpdateBabyDevelopmentDto,
+    files?: Express.Multer.File[],
+  ) {
     const { weekId, organ_developments, ...babyDevelopmentData } =
       updateBabyDevelopmentDto;
 
@@ -230,6 +238,20 @@ export class BabyDevelopmentService {
     this.babyDevelopmentRepository.merge(babyDevelopment, babyDevelopmentData);
     await this.babyDevelopmentRepository.save(babyDevelopment);
 
+    if (files && files.length > 0) {
+      await this.babyMediaRepository.delete({
+        babyDevelopment: { id: babyDevelopment.id },
+      });
+      for (const file of files) {
+        const babyMedia = this.babyMediaRepository.create({
+          babyDevelopment: babyDevelopment,
+          mediaUrl: file.path,
+          caption: file.originalname,
+          mediaType: file.mimetype.split('/')[0], // Fixed typo here
+        });
+        await this.babyMediaRepository.save(babyMedia);
+      }
+    }
     return this.findOne(id);
   }
 

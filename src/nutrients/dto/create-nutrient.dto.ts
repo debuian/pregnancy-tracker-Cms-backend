@@ -1,39 +1,35 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
+import { NutrientExamples } from './swagger-response';
 
 export class CreateNutrientDto {
   @ApiProperty({
-    example: 'Vitamin C',
+    example: NutrientExamples.CREATE.name,
     description: 'Name of the nutrient',
-    type: String,
   })
   @IsString()
   @IsNotEmpty()
   name: string;
 
   @ApiProperty({
-    example:
-      'Vitamin C is a water-soluble vitamin that is important for the growth and repair of tissues in the body.',
+    example: NutrientExamples.CREATE.description,
     description: 'Description of the nutrient',
-    type: String,
   })
   @IsString()
   @IsNotEmpty()
   description: string;
 
   @ApiProperty({
-    example: 'ascorbic acid',
+    example: NutrientExamples.CREATE.food_source,
     description: 'Chemical formula of the nutrient',
-    type: String,
   })
   @IsString()
   @IsNotEmpty()
   food_source: string;
 
   @ApiProperty({
-    example: 'water-soluble',
+    example: NutrientExamples.CREATE.category,
     description: 'Category of the nutrient',
-    type: String,
   })
   @IsString()
   @IsNotEmpty()
