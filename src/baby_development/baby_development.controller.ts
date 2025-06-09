@@ -13,6 +13,7 @@ import {
 import { BabyDevelopmentService } from './baby_development.service';
 import {
   CreateBabyDevelopmentDto,
+  CreateBabyDevelopmentSwaggerDto,
   // CreateBabyDevelopmentSwaggerDto,
 } from './dto/create-baby_development.dto';
 import { UpdateBabyDevelopmentDto } from './dto/update-baby_development.dto';
@@ -44,7 +45,7 @@ export class BabyDevelopmentController {
 
   @Post()
   @ApiOperation({ summary: 'Create baby development record with files' })
-  // @ApiBody({type:CreateBabyDevelopmentSwaggerDto})
+  @ApiBody({ type: CreateBabyDevelopmentSwaggerDto })
   @ApiConsumes('multipart/form-data')
   @ApiCreatedResponse({
     type: BabyDevelopmentCreatedResponse,

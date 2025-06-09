@@ -91,29 +91,29 @@ export class CreateBabyDevelopmentDto {
   organ_developments?: OrganDevelopmentInput[];
 }
 
-// export class CreateBabyDevelopmentSwaggerDto extends CreateBabyDevelopmentDto {
-//   @ApiProperty({
-//     type: 'array',
-//     items: {
-//       type: 'object',
-//       properties: {
-//         organId: { type: 'number', example: 1 },
-//         development_stage: {
-//           type: 'string',
-//           example: 'Formation of the heart chambers',
-//         },
-//       },
-//     },
-//     required: false,
-//     description: 'Organ development details',
-//   })
-//   declare organ_developments?: any;
+export class CreateBabyDevelopmentSwaggerDto extends CreateBabyDevelopmentDto {
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        organId: { type: 'number', example: 1 },
+        development_stage: {
+          type: 'string',
+          example: 'Formation of the heart chambers',
+        },
+      },
+    },
+    required: false,
+    description: 'Organ development details',
+  })
+  declare organ_developments?: any;
 
-//   @ApiProperty({
-//     type: 'string',
-//     format: 'binary',
-//     isArray: true,
-//     description: 'Optional files for baby development record',
-//   })
-//   files: any;
-// }
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    isArray: true,
+    description: 'Optional files for baby development record',
+  })
+  files: any;
+}

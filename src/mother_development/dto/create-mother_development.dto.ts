@@ -10,77 +10,57 @@ import {
 } from 'class-validator';
 
 class SymptomDto {
+  @ApiProperty({ example: '1' })
   @IsNotEmpty()
   @Type(() => Number)
   symptomId: number;
 
+  @ApiProperty({ example: 'Mild' })
   @IsNotEmpty()
   @IsString()
   severity: string;
 }
 export class CreateMotherDevelopmentDto {
-  // @Transform(({ value }) => {
-  //   if (value === '' || value === undefined || value === null) {
-  //     throw new BadRequestException('weekId should not be empty');
-  //   }
-  //   const r = parseInt(value);
-  //   if (isNaN(r)) {
-  //     throw new BadRequestException('weekId must be a number');
-  //   }
-  //   return r;
-  // })
+  @ApiProperty({
+    example: '1',
+  })
   @Type(() => Number)
   @IsNotEmpty()
   @IsNumber()
   weekId: number;
 
+  @ApiProperty({
+    example: 'increased breast tenderness, slight abdominal swelling.',
+  })
   @IsString()
   @IsNotEmpty()
   physical_changes: string;
 
+  @ApiProperty({
+    example:
+      'Estrogen and progesterone levels continue to rise, leading to fatigue and nausea.',
+  })
   @IsString()
   @IsNotEmpty()
   hormonal_changes: string;
 
+  @ApiProperty({
+    type: [SymptomDto],
+    required: false,
+  })
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => SymptomDto)
   symptoms: SymptomDto[];
 }
 
-// export class CreateMotherDevelopmentFormDto {
-//   files?: Express.Multer.File[];
-//   data: string; // Will contain stringified CreateMotherDevelopmentDto
-// }
-
-export class CreateMotherDeveSwagger {
+export class CreateMotherDeveSwagger extends CreateMotherDevelopmentDto {
   @ApiProperty({
-    type: 'array',
-    items: {
-      type: 'string',
-      format: 'binary',
-    },
+    type: 'string',
+    format: 'binary',
+    isArray: true,
     description: 'Development photos/documents',
     required: false,
   })
   files?: any[];
-
-  @ApiProperty({
-    type: CreateMotherDevelopmentDto,
-    description: 'Baby development data as JSON string',
-    example: JSON.stringify({
-      weekId: 2,
-      physical_changes:
-        'Increased breast tenderness, slight abdominal swelling.',
-      hormonal_changes:
-        'Estrogen and progesterone levels continue to rise, leading to fatigue and nausea.',
-      symptoms: [
-        {
-          symptomId: 1,
-          severity: 'Mild',
-        },
-      ],
-    }),
-  })
-  data: string;
 }

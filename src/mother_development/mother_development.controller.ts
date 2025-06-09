@@ -43,8 +43,6 @@ export class MotherDevelopmentController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     type: CreateMotherDeveSwagger,
-    description: 'Mother development data and optional media files',
-    required: true,
   })
   @ApiCreatedResponse({
     type: MotherDeveCreatedResponse,

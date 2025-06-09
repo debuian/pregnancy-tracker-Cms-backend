@@ -67,9 +67,37 @@ export class MotherDevelopmentService {
   }
 
   async findAll() {
-    return this.motherDevelopmentRepo.find({
+    const data = await this.motherDevelopmentRepo.find({
       relations: ['week'],
     });
+
+    const result = await Promise.all(
+      data.map(async (dev) => {
+        const motherSymptoms = await this.motherSymptomsRepo.find({
+          where: { motherDevelopment: { id: dev.id } },
+          relations: ['symptom'],
+        });
+
+        const motherMedia = await this.motherMediaRepo.find({
+          where: { motherDevelopment: { id: dev.id } },
+        });
+        return {
+          ...dev,
+          media: motherMedia.map((m) => ({
+            id: m.id,
+            caption: m.caption,
+            mediaUrl: m.mediaUrl,
+            mediaType: m.mediaType,
+          })),
+          symptoms: motherSymptoms.map((ms) => ({
+            id: ms.id,
+            symptom: ms.symptom,
+          })),
+        };
+      }),
+    );
+
+    return result;
   }
 
   async findOne(id: number) {
@@ -84,9 +112,13 @@ export class MotherDevelopmentService {
       where: { motherDevelopment: { id } },
       relations: ['symptom'],
     });
+    const motherMedia = await this.motherMediaRepo.find({
+      where: { motherDevelopment: { id: id } },
+    });
     return {
       ...motherDevelopment,
       symptoms: motherSymptoms,
+      media: motherMedia,
     };
   }
 
